@@ -1,0 +1,10 @@
+aws_region              = "eu-central-1"
+#local_network_cidr      = "192.168.1.0/24"   #or/24/16/26???
+private_ip_cidr         = "192.168.1.147/32"
+s3_bucket_name = "d4ml-bucket/Ignes"
+iam_role_name           = "role-d4ml-cloud9-deployment"
+ami_id                  = "ami-08a34e890d3f70022"
+key_pair_name           = "ignekp"
+iam_instance_profile_name = "Igne_instance"
+security_group_name     = "sg_skillboost"
+instance_name           = "Igne_instance"
