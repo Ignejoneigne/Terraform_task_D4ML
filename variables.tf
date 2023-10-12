@@ -13,15 +13,16 @@ variable "key_pair_name" {
   type        = string
 }
 
-variable "security_group_name" {
-  description = "Name of the existing AWS security group"
-  type        = string
-}
-
 variable "instance_name" {
   description = "Name of the EC2 instance"
   type        = string
 }
+
+variable "instance_type" {
+  description = "Type of the EC2 instance"
+  type        = string
+}
+
 
 variable "iam_instance_profile_name" {
   description = "Name of the IAM instance profile for EC2 instance"
@@ -45,5 +46,10 @@ variable "iam_role_name" {
 
 variable "private_ip_cidr" {
   description = "CIDR block for the private IP address"
+  type        = string
+}
+
+variable "security_group" {
+  description = "Name of the security group to attach to the EC2 instance."
   type        = string
 }
