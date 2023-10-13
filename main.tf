@@ -4,14 +4,13 @@ data "aws_vpc" "main" {
 
 resource "aws_security_group" "sftp_security_group" {
   name        = var.security_group
-  description = "Security group for SFTP server"
-  vpc_id      = data.aws_vpc.main.id
+  description = "Security group"
+  vpc_id      = "vpc-0faf1b0abcce85736"
 
   ingress {
     from_port   = 15955
     to_port     = 15955
     protocol    = "tcp"
-    cidr_blocks = [var.private_ip_cidr]
   }
 }
 
@@ -19,24 +18,29 @@ resource "aws_instance" "sftp_server" {
   ami           = var.ami_id
   instance_type = var.instance_type
   key_name      = var.key_pair_name
-  security_groups = [aws_security_group.sftp_security_group.name]
+  security_groups = [var.security_group]
   iam_instance_profile = "role-d4ml-cloud9-deployment"
   user_data     = <<-EOF
     #!/bin/bash
 
+    export S3_BUCKET_NAME="${var.s3_bucket_name}"
+
     while true; do
-      if aws s3 sync "/opt" "s3://${var.s3_bucket_name}/Ignes" --delete; then
+      if aws s3 sync "/opt" "s3://$S3_BUCKET_NAME/Ignes" --delete; then
         echo "Backup completed successfully at \$(date)"
       else
         echo "Backup failed at \$(date)"
       fi
       sleep 60
     done
-  EOF
+    EOF
 
   tags = {
-    Name        = "SFTP Server"
+    Name = "SFTP Server"
     Environment = "D4ML"
-    Owner       = "Igne"
+    Owner = "Igne"
   }
 }
+
+
+
