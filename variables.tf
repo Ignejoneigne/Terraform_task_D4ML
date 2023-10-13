@@ -18,6 +18,11 @@ variable "ami_id" {
   type        = string
 }
 
+variable "iam_instance_profile" {
+  description = "Name of the IAM instance profile for the EC2 instance"
+  type        = string
+}
+
 variable "key_pair_name" {
   description = "Name of the AWS key pair for EC2 instance"
   type        = string
