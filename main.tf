@@ -2,24 +2,17 @@ data "aws_vpc" "main" {
   default = true
 }
 
-resource "aws_security_group" "sftp_security_group" {
-  name        = var.security_group
-  description = "Security group"
-  vpc_id      = "vpc-0faf1b0abcce85736"
-
-  ingress {
-    from_port   = 15955
-    to_port     = 15955
-    protocol    = "tcp"
-  }
+data "aws_security_group" "existing_sftp_security_group" {
+  name   = "igne_group_2023"
+  vpc_id = "vpc-0faf1b0abcce85736"
 }
 
 resource "aws_instance" "sftp_server" {
   ami           = var.ami_id
   instance_type = var.instance_type
   key_name      = var.key_pair_name
-  security_groups = [var.security_group]
-  iam_instance_profile = var.iam_instance_profile
+  security_groups = [data.aws_security_group.existing_sftp_security_group.id]
+  iam_instance_profile = "role-d4ml-cloud9-deployment"
   user_data     = <<-EOF
     #!/bin/bash
 
@@ -31,7 +24,7 @@ resource "aws_instance" "sftp_server" {
       fi
       sleep 60
     done
-    EOF
+  EOF
 
   tags = {
     Name        = "SFTP Server"
