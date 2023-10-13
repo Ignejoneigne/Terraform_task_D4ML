@@ -1,0 +1,12 @@
+Hand On Terraform Task Describtion
+
+As a junior DevOps engineer, you need to create Infrastructure as a Code for our SFTP server.
+
+Description:
+
+1. You need to use default VPC in Frankfurt region in AWS.
+2. SFTP server should listen on 15955 port
+3. This port must be available only from the local network and private IP address of the executer
+4. SFTP server must be available only for user "admin"
+5. S3 bucket should be used to backup /opt/* from SFTP server
+6. A backup must be done every 1 minute and overwrite files with the same names

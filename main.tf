@@ -1,47 +1,46 @@
-provider "aws" {
-  region  = var.aws_region
-  profile = "d4ml-intern"
+data "aws_vpc" "main" {
+  default = true
 }
 
 resource "aws_security_group" "sftp_security_group" {
-  name        = "sftp-security-group"
-  description = "Security group for SFTP server"
-  vpc_id        = data.aws_vpc.main.id
+  name        = var.security_group
+  description = "Security group"
+  vpc_id      = "vpc-0faf1b0abcce85736"
 
   ingress {
     from_port   = 15955
     to_port     = 15955
     protocol    = "tcp"
-    #cidr_blocks = ["192.168.1.0/24", "5.20.132.172/32"]
   }
 }
 
 resource "aws_instance" "sftp_server" {
   ami           = var.ami_id
-  instance_type = "t2.micro"
+  instance_type = var.instance_type
   key_name      = var.key_pair_name
-#  subnet_id     = aws_subnet.private_subnet.id
-  security_groups = [aws_security_group.sftp_security_group.name]
-#  availability_zone = var.aws_region
+  security_groups = [var.security_group]
   iam_instance_profile = "role-d4ml-cloud9-deployment"
-#  user_data     = file("backup_script.sh")
-  user_data     = file("${path.module}/backup_script.sh")
+  user_data     = <<-EOF
+    #!/bin/bash
+
+    export S3_BUCKET_NAME="${var.s3_bucket_name}"
+
+    while true; do
+      if aws s3 sync "/opt" "s3://$S3_BUCKET_NAME/" --delete; then
+        echo "Backup completed successfully at \$(date)"
+      else
+        echo "Backup failed at \$(date)"
+      fi
+      sleep 60
+    done
+    EOF
+
   tags = {
-    Name = var.instance_name
+    Name = "SFTP Server"
+    Environment = "D4ML"
+    Owner = "Igne"
   }
 }
 
-#resource "aws_subnet" "private_subnet" {
-#  vpc_id     = data.aws_vpc.main.id
-#  cidr_block = var.local_network_cidr
-#}
 
-data "aws_vpc" "main" {
-  default = true
-}
 
-resource "aws_s3_object" "sftp_backup" {
-  bucket = "d4ml-bucket"
-  key    = "Ignes/"
-  source = "C:\\Users\\igne.jone\\project0\\Terraform_task\\opt"
-}
