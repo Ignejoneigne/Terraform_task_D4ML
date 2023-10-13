@@ -1,10 +1,12 @@
 #!/bin/bash
 
+export S3_BUCKET_NAME="${var.s3_bucket_name}"
+
 while true; do
-  if aws s3 sync "/opt" "s3://${var.s3_bucket_name}/Ignes" --delete; then
-    echo "Backup completed successfully at \$(date)"
+  if aws s3 sync "/opt" "s3://$S3_BUCKET_NAME/Ignes" --delete; then
+    echo "Backup completed successfully at $(date)"
   else
-    echo "Backup failed at \$(date)"
+    echo "Backup failed at $(date)"
   fi
   sleep 60
 done
