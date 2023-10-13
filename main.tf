@@ -19,7 +19,7 @@ resource "aws_instance" "sftp_server" {
   instance_type = var.instance_type
   key_name      = var.key_pair_name
   security_groups = [var.security_group]
-  iam_instance_profile = var.iam_instance_profile_name
+  iam_instance_profile = var.iam_instance_profile
   user_data     = <<-EOF
     #!/bin/bash
 
