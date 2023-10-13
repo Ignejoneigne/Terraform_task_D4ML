@@ -5,7 +5,7 @@ data "aws_vpc" "main" {
 resource "aws_security_group" "sftp_security_group" {
   name        = var.security_group
   description = "Security group"
-  vpc_id      = data.aws_vpc.main.id
+  vpc_id      = vpc-0faf1b0abcce85736
 
   ingress {
     from_port   = 15955
