@@ -28,10 +28,10 @@ variable "key_pair_name" {
   type        = string
 }
 
-variable "security_group" {
-  description = "Name of the security group to attach to the EC2 instance"
-  type        = string
-}
+#variable "security_group" {
+#  description = "Name of the security group to attach to the EC2 instance"
+#  type        = string
+#}
 
 variable "instance_type" {
   description = "Type of the EC2 instance"

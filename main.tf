@@ -3,7 +3,7 @@ data "aws_vpc" "default" {
 }
 
 resource "aws_security_group" "sftp_security_group" {
-  name        = var.security_group
+  name        = igne_group_2023
   description = "Security group"
   vpc_id      = data.aws_vpc.default.id
 
