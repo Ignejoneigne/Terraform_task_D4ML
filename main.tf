@@ -1,18 +1,18 @@
 data "aws_vpc" "default" {
   default = true
 }
-
-resource "aws_security_group" "sftp_security_group" {
-  name        = "igne_group_2023"
-  description = "Security group"
-  vpc_id      = data.aws_vpc.default.id
-
-  ingress {
-    from_port   = 15955
-    to_port     = 15955
-    protocol    = "tcp"
-  }
-}
+# Create new security group
+#resource "aws_security_group" "sftp_security_group" {
+#  name        = "new_security_group"
+#  description = "Security group"
+#  vpc_id      = data.aws_vpc.default.id
+#
+#  ingress {
+#    from_port   = 15955
+#    to_port     = 15955
+#    protocol    = "tcp"
+#  }
+#}
 
 resource "aws_instance" "sftp_server" {
   ami           = var.ami_id
