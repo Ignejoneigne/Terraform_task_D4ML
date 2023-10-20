@@ -7,4 +7,4 @@ iam_instance_profile = "role-d4ml-cloud9-deployment"
 security_group          = "igne_group_fridays"
 instance_type           = "t2.micro"
 instance_name           = "Terraform_Igne_fridays"
-vpc_id                  = "vpc-0faf1b0abcce85736"
+
