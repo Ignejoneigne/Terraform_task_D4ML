@@ -7,7 +7,7 @@ sudo apt update
 sudo apt install -y unzip git
 
 # Download and install Terraform (latest version)
-wget https://releases.hashicorp.com/terraform/1.0.0/terraform_1.0.0_linux_amd64.zip
+wget https://releases.hashicorp.com/terraform/1.6.2/terraform_1.6.2_linux_amd64.zip
 unzip terraform_1.0.0_linux_amd64.zip
 sudo mv terraform /usr/local/bin/
 
