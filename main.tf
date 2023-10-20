@@ -3,7 +3,7 @@ data "aws_vpc" "default" {
 }
 
 resource "aws_security_group" "sftp_security_group" {
-  name        = igne_group_2023
+  name        = "igne_group_2023"
   description = "Security group"
   vpc_id      = data.aws_vpc.default.id
 
@@ -18,7 +18,8 @@ resource "aws_instance" "sftp_server" {
   ami           = var.ami_id
   instance_type = var.instance_type
   key_name      = var.key_pair_name
-  security_groups = [var.security_group]
+  vpc_security_group_ids = [var.security_group_id]
+  #security_groups = [var.security_group]
   iam_instance_profile = "role-d4ml-cloud9-deployment"
   user_data     = <<-EOF
     #!/bin/bash

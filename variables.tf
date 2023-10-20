@@ -33,6 +33,10 @@ variable "key_pair_name" {
 #  type        = string
 #}
 
+variable "security_group_id" {
+  description = "The ID of the security group to use"
+  default     = "sg-095ce500da640e0a9"
+}
 variable "instance_type" {
   description = "Type of the EC2 instance"
   type        = string
