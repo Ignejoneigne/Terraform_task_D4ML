@@ -44,4 +44,5 @@ variable "instance_name" {
 
 variable "user_ip_address" {
   description = "The public IP address of the user to allow inbound traffic on ports 80 and 443."
+  type        = string
 }
