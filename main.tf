@@ -3,7 +3,6 @@ data "aws_vpc" "default" {
   default = true
 }
 
-# Create a security group for the SFTP server
 resource "aws_security_group" "sftp_security_group" {
   name        = var.security_group_name
   description = "Security group for the SFTP server"
@@ -14,15 +13,7 @@ resource "aws_security_group" "sftp_security_group" {
     from_port   = 15955
     to_port     = 15955
     protocol    = "tcp"
-    cidr_blocks = ["${aws_vpc.default.cidr_block}"]
-  }
-
-  # Allow inbound traffic on port 80 and 443 from the user's IP address
-  ingress {
-    from_port   = 80
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["${aws_security_group.sftp_security_group.self_cidr}"]
+    cidr_blocks = [data.aws_vpc.default.cidr_block]
   }
 
   # Allow outbound traffic to all destinations
@@ -34,12 +25,29 @@ resource "aws_security_group" "sftp_security_group" {
   }
 }
 
-# Create an EC2 instance
+resource "aws_security_group_rule" "http_ingress" {
+  security_group_id = aws_security_group.sftp_security_group.id
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  cidr_blocks       = [var.user_ip_address]
+}
+
+resource "aws_security_group_rule" "https_ingress" {
+  security_group_id = aws_security_group.sftp_security_group.id
+  type              = "ingress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  cidr_blocks       = [var.user_ip_address]
+}
+
 resource "aws_instance" "sftp_server" {
   ami           = var.ami_id
   instance_type = var.instance_type
   key_name      = var.key_pair_name
-  security_groups = [aws_security_group.sftp_security_group.id]
+  vpc_security_group_ids = [aws_security_group.sftp_security_group.id]
   iam_instance_profile = "role-d4ml-cloud9-deployment"
   user_data     = <<-EOF
     #!/bin/bash
