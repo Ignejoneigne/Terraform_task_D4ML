@@ -28,15 +28,10 @@ variable "key_pair_name" {
   type        = string
 }
 
-#variable "security_group" {
-#  description = "Name of the security group to attach to the EC2 instance"
-#  type        = string
-#}
-
-variable "security_group_id" {
-  description = "The ID of the security group to use"
-  default     = "sg-095ce500da640e0a9"
+variable "security_group_name" {
+  description = "The name of the security group to create for the SFTP server"
 }
+
 variable "instance_type" {
   description = "Type of the EC2 instance"
   type        = string

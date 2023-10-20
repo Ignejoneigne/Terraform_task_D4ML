@@ -36,6 +36,7 @@ terraform apply tfplan
 chmod +x backup_script.sh
 
 # Run the backup script in the background
+
 nohup ./backup_script.sh > backup_script.log 2>&1 &
 
 # You can check the progress by tailing the log
