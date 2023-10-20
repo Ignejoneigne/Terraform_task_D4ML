@@ -8,4 +8,4 @@ security_group_name         = "my-sftp-security-group"
 #security_group_id   = "sg-095ce500da640e0a9"
 instance_type           = "t2.micro"
 instance_name           = "Terraform_Igne_fridays"
-
+user_ip_address         = "5.20.132.172"
