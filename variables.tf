@@ -43,7 +43,3 @@ variable "instance_name" {
   type        = string
 }
 
-variable "vpc_id" {
-  description = "The ID of the VPC to use."
-  type        = string
-}
